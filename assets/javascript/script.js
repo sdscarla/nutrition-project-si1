@@ -36,7 +36,7 @@ var carboidratosPorGrama = { //objeto que mapeia o nome do alimento para a quant
     Laranja: 0.1175,
     Carne: 0.00,
     Frango: 0.00,
-    Ovo: 0.0072,
+    Ovos: 0.0072,
     Café: 0.00,
     Banana: 0.2284,
     Batata: 0.1758
@@ -49,7 +49,7 @@ var proteinasPorGrama = {
     Laranja: 0.0094,
     Carne: 0.26,
     Frango: 0.31,
-    Ovo: 0.13,
+    Ovos: 0.13,
     Café: 0.00,
     Banana: 0.0109,
     Batata: 0.0202
@@ -62,7 +62,7 @@ var gordurasPorGrama = {
     Laranja: 0.0012,
     Carne: 0.20,
     Frango: 0.036,
-    Ovo: 0.10,
+    Ovos: 0.10,
     Café: 0.00,
     Banana: 0.0033,
     Batata: 0.001
@@ -153,4 +153,56 @@ function confirmarMeta_diaria() {
         } else {
             alert('Insira somente valores válidos, por favor!');
         }
+}
+
+//função para calcular as calorias e gerar os dois gráficos para comparação
+function somar_calorias() {
+    gramas = {
+        Arroz: +$('#grama_arroz').val(),
+        Feijão: +$('#grama_feijao').val(),
+        Pão: +$('#grama_pao').val(),
+        Laranja: +$('#grama_laranja').val(),
+        Carne: +$('#grama_carneBovina').val(),
+        Frango: +$('#grama_carneFrango').val(),
+        Ovos: +$('#grama_ovos').val(),
+        Café: +$('#grama_cafe').val(),
+        Banana: +$('#grama_banana').val(),
+        Batata: +$('#grama_batata').val()
+    };
+
+    var calorias_por_alimento = {}; //dicionario para armazenar as calorias totais de cada alimento
+    for (var alimento in gramas) {
+        var carboidratos = carboidratosPorGrama[alimento] * gramas[alimento];
+        var proteinas = proteinasPorGrama[alimento] * gramas[alimento];
+        var gorduras = gordurasPorGrama[alimento] * gramas[alimento];
+
+        var calorias = (carboidratos * 4) + (proteinas * 4) + (gorduras * 9);
+        calorias_por_alimento[alimento] = calorias;
+    }
+
+    var labels = Object.keys(calorias_por_alimento);
+    var data = Object.values(calorias_por_alimento);
+
+    new Chart($('.column-chart')[0].getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+        datasets: [{
+            label: 'Calorias por Alimento',
+            data: data,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1,
+        }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+        },
+    });
 }
