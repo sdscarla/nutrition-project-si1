@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/img/plano-de-nutricao.png">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>eating for life(modelo)</title>
+</head>
+<body>
+    <div class="header">
+        <img src="assets/img/plano-de-nutricao.png" alt="logotipo do site" class="logo">
+        <h1>Eating for life</h1>
+    </div>
+
+    <div class="meta_diaria">
+        <h2>Meta Diária</h2>
+        <label for="meta_carboidratos">Carboidratos(g):</label>
+        <input type="number" id="meta_carboidratos" placeholder="Exemplo... 150g">
+
+        <label for="meta_proteinas">Proteínas(g):</label>
+        <input type="number" id="meta_proteinas" placeholder="Exemplo... 120g">
+
+        <label for="meta_gorduras">Gorduras(g):</label>
+        <input type="number" id="meta_gorduras" placeholder="Exemplo... 90g">
+
+        <button id="confirmar_meta" class="botoes">Confirmar</button>
+    </div>
+
+    <br>
+
+    <div class="container">
+        <div class="card-alimento">
+            <img src="assets/img/arroz_branco.jpg" alt="arroz branco" class="img-alimento">
+            <div class="nutrientes">
+                <h1>Arroz branco</h1>
+                <p>Carboidrato<small>(100g)</small>: 28,2g</p>
+                <p>Proteínas<small>(100g)</small>: 2,7g</p>
+                <p>Gorduras<small>(100g)</small>: 0,3g</p>
+                <p>Vitaminas<small>(100g)</small>: -</p>
+            </div>
+            <input type="text" placeholder="Informe as gramas" id="grama_arroz" class="input-alimento">
+        </div>
+
+        <div class="card-alimento">
+            <img src="assets/img/feijao.jpg" alt="feijão" class="img-alimento">
+            <div class="nutrientes">
+                <h1>Feijão</h1>
+                <p>Carboidrato<small>(100g)</small>: 20g</p>
+                <p>Proteína<small>(100g)</small>: 9g</p>
+                <p>Gorduras<small>(100g)</small>: 0,5g</p>
+                <p>Vitaminas: B9</p>
+            </div>
+            <input type="text" placeholder="Informe as gramas" id="grama_feijao" class="input-alimento">
+       </div>
+
+        <div class="card-alimento">
+            <img src="assets/img/pao_frances.jpg" alt="pão francês" class="img-alimento">
+            <div class="nutrientes">
+                <h1>Pão francês</h1>
+                <p>Carboidrato<small>(100g)</small>: 50g</p>
+                <p>Proteínas<small>(100g)</small>: 9g</p>
+                <p>Gorduras: 2.500mg</p>
+                <p>Vitaminas: -</p>
+            </div>
+            <input type="text" placeholder="Informe as gramas" id="grama_pao" class="input-alimento">
+        </div>
+
+        <div class="card-alimento">
+            <img src="assets/img/laranja.jpg" alt="laranja" class="img-alimento">
+            <div class="nutrientes">
+                <h1>Laranja</h1>
+                <p>Carboidrato<small>(100g)</small>: 11,75g</p>
+                <p>Proteínas<small>(100g)</small>: 0,94g</p>
+                <p>Gorduras<small>(100g)</small>: 0,12g</p>
+                <p>Vitaminas: C, A</p>
+            </div>
+            <input type="text" placeholder="Informe as gramas" id="grama_laranja" class="input-alimento">
+        </div>
+
+        <div class="card-alimento">
+            <img src="assets/img/carne_bovina.jpg" alt="carne bovina" class="img-alimento">
+            <div class="nutrientes">
+                <h1>Carne bovina</h1>
+                <p>Carboidrato<small>(100g)</small>: 0g</p>
+                <p>Proteínas<small>(100g)</small>: 26g</p>
+                <p>Gorduras<small>(100g)</small>: 20g</p>
+                <p>Vitaminas: -</p>
+            </div>
+            <input type="text" placeholder="Informe as gramas" id="grama_carneBovina" class="input-alimento">
+       </div>
+
+       <div class="card-alimento">
+            <img src="assets/img/carne_de_frango.jpg" alt="carne de frango" class="img-alimento">
+            <div class="nutrientes">
+                <h1>Carne de frango</h1>
+                <p>Carboidrato<small>(100g)</small>: 0g</p>
+                <p>Proteínas<small>(100g)</small>: 31g</p>
+                <p>Gorduras<small>(100g)</small>: 3,6g</p>
+                <p>Vitaminas: -</p>
+            </div>
+            <input type="text" placeholder="Informe as gramas" id="grama_carneFrango" class="input-alimento">
+        </div>
+
+        <div class="card-alimento">
+            <img src="assets/img/ovos.jpg" alt="ovos" class="img-alimento">
+            <div class="nutrientes">
+                <h1>Ovos</h1>
+                <p>Carboidrato<small>(100g)</small>: 0,72g</p>
+                <p>Proteínas<small>(100g)</small>: 13g</p>
+                <p>Gorduras<small>(100g)</small>: 1g</p>
+                <p>Vitaminas: B12, D</p>
+            </div>
+            <input type="text" placeholder="Informe as gramas" id="grama_ovos" class="input-alimento">
+        </div>
+
+        <div class="card-alimento">
+            <img src="assets/img/cafe.jpg" alt="café" class="img-alimento">
+            <div class="nutrientes">
+                <h1>Café (sem açúcar)</h1>
+                <p>Carboidrato<small>(100g)</small>: 0g</p>
+                <p>Proteínas<small>(100g)</small>: 0g</p>
+                <p>Gorduras<small>(100g)</small>: 0g</p>
+                <p>Vitaminas<small>(100g)</small>: -</p>
+            </div>
+            <input type="text" placeholder="Informe as gramas" id="grama_cafe" class="input-alimento">
+        </div>
+
+        <div class="card-alimento">
+            <img src="assets/img/banana.jpg" alt="banana" class="img-alimento">
+            <div class="nutrientes">
+                <h1>Banana</h1>
+                <p>Carboidrato<small>(100g)</small>: 22,84g</p>
+                <p>Proteínas<small>(100g)</small>: 1,09g</p>
+                <p>Gorduras<small>(100g)</small>: 0,33g</p>
+                <p>Vitaminas: B6, C</p>
+            </div>
+            <input type="text" placeholder="Informe as gramas" id="grama_banana" class="input-alimento">
+        </div>
+
+        <div class="card-alimento">
+            <img src="assets/img/batata_branca.jpg" alt="batata" class="img-alimento">
+            <div class="nutrientes">
+                <h1>Batata branca</h1>
+                <p>Carboidrato<small>(100g)</small>: 17,58g</p>
+                <p>Proteínas<small>(100g)</small>: 2,02g</p>
+                <p>Gorduras<small>(100g)</small>: 100mg</p>
+                <p>Vitaminas: C</p>
+            </div>
+            <input type="text" placeholder="Informe as gramas" id="grama_batata" class="input-alimento">
+        </div>       
+    </div>
+
+    <div class="botoes">
+        <button id="visualizacao">Visualização</button>
+    </div>
+
+    <div class="chart-container">
+        <canvas class="column-chart"></canvas>
+    </div>
+    <br><br>
+    <div class="chart-container">
+        <canvas id="graficos-pizza"></canvas>
+    </div>
+
+    <div class="botoes">
+        <button id="adicionar-refeicao">Adicionar refeição ao dia</button>
+    </div>
+
+    <div class="container-tabela">
+        <canvas id="chart-container" width="400" height="200"></canvas>
+        <table id="tabela-refeicoes" border="1">
+            <thead>
+                <tr>
+                    <th>Dia</th>
+                    <th>Carboidratos(g)</th>
+                    <th>Proteínas(g)</th>
+                    <th>Gorduras(g)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Segunda</td></td><td></td><td></td><td></td></tr>
+                <tr><td>Terça</td><td></td><td></td><td></td></tr>
+                <tr><td>Quarta</td><td></td><td></td><td></td></tr>
+                <tr><td>Quinta</td><td></td><td></td><td></td></tr>
+                <tr><td>Sexta</td><td></td><td></td><td></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>Antonia Carla Silva dos Santos - 169621® // Rafael Braga de Mattos - 169612® </p>
+    </footer>
+
+    <script src="assets/javascript/script.js"></script>
+</body>
+</html>

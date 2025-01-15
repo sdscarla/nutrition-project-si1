@@ -1,0 +1,165 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+    box-sizing: border-box;
+}
+
+#adicionar-refeicoes, #tabela-refeicoes {
+    display: ; /*none*/
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;
+    background-color: #f4f8ef;
+    width: 100vw;
+    height: 10vh;
+}
+
+.meta_diaria {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100vw;
+    height: 10vh;
+    background-color:#cfd1ce ;
+    box-shadow: 0px 10px 15px -15px black;
+}
+
+#confirmar_meta {
+    padding: 0.5%;
+    margin-right: 1%;
+}
+
+.logo {
+    height: 40px;
+    width: 40px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header h1 {
+    font-size: 38px;
+    padding-left: 1%;
+    color: #1d70c3;
+    padding: 1%;
+}
+
+body {
+    background-color: #bfe8c9;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
+    padding: 10px;
+    align-items: center;
+    margin: 5px;
+}
+
+.card-alimento {
+    background-color: #bfe8c9;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    width: 40%;
+    text-align: center;
+    border: 1px solid #aaa;
+    transition: 1s;
+}
+
+.card-alimento:hover {
+    transform: scale(1.1);
+}
+
+.img-alimento {
+    width: 100px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.nutrientes {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    justify-content: flex-end;
+    font-size: 20px;
+}
+
+.nutrientes h1 {
+    font-size: 35px;
+    margin-bottom: 5%;
+}
+
+.input-alimento {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 80%;
+}
+
+.botoes button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 5px;
+    color: #55a49e;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #b4d5d1;
+}
+
+.container-tabela {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#tabela-refeicoes {
+    width: 50%;
+    border-collapse: collapse;
+    background-color: #f3f3f3;
+    border-radius: 10px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid black;
+}
+
+th {
+    background-color: #1d70c3;
+    font-size: 16px;
+}
+
+td {
+    font-size: 14px;
+}
+
+footer {
+    background-color: #97c2a4;
+    color: #071c12;
+    text-align: center;
+    padding: 20px 0;
+    bottom: 0;
+    width: 100%;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    height: 6vh;
+}
