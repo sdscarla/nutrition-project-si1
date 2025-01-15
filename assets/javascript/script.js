@@ -205,4 +205,70 @@ function somar_calorias() {
             },
         },
     });
+
+    var graficosPizza = $('#graficos-pizza');
+    graficosPizza.empty();
+
+    for (var alimento in gramas) {
+        if(gramas[alimento] > 0) {
+            var div = $('<div></div>').css({
+                width: '23%',
+                height: '300px',
+                margin: '10px'
+              }).append('<canvas></canvas>');
+
+              graficosPizza.append(div);
+
+              var ctx = div.find('canvas')[0].getContext('2d');
+
+              new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Carboidratos', 'Proteinas', 'Gorduras'],
+                    datasets: [{
+                        data: [
+                            carboidratosPorGrama[alimento] * gramas[alimento],
+                            proteinasPorGrama[alimento] * gramas[alimento],
+                            gordurasPorGrama[alimento] * gramas[alimento]
+                        ],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(199, 199, 199, 0.2)',
+                            'rgba(83, 102, 255, 0.2)',
+                            'rgba(50, 205, 50, 0.2)',
+                            'rgba(205, 92, 92, 0.2)',
+                          ],
+                          borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(199, 199, 199, 1)',
+                            'rgba(83, 102, 255, 1)',
+                            'rgba(50, 205, 50, 1)',
+                            'rgba(205, 92, 92, 1)',
+                            ],
+                            borderWidth: 1,
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: alimento
+                        }
+                    }
+                }
+              });
+        }
+    }
 }
