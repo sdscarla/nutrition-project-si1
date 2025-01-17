@@ -91,7 +91,8 @@ function grafico_metas_diarias() {
                     data: [],
                     borderColor: 'rgba(75, 192, 192, 1)',
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    fill: false
+                    fill: false,
+                    borderWidth: 2
                 },
 
                 {
@@ -99,7 +100,8 @@ function grafico_metas_diarias() {
                     data: [],
                     borderColor: 'rgba(153, 102, 255, 1)',
                     backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                    fill: false
+                    fill: false,
+                    borderWidth: 2
                 },
 
                 {
@@ -107,7 +109,8 @@ function grafico_metas_diarias() {
                     data: [],
                     borderColor: 'rgba(255, 159, 64, 0.2)',
                     backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                    fill: false
+                    fill: false,
+                    borderWidth: 2
                 }
             ]
         },
@@ -116,25 +119,41 @@ function grafico_metas_diarias() {
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'Meta Diária em %'
+                text: 'Meta Diária em %',
+                font: {
+                    size: 16,
+                    weight: 'bold'
+                },
+                padding: {
+                    bottom: 20
+                }
             },
             scales: {
-                xAxes: [{
-                    scaleLabel: {
+                x: {
+                    title: {
                         display: true,
-                        labelString: 'Dia da Semana'
+                        text: 'Dia da Semana'
+                    },
+                    ticks: {
+                        font: {
+                            size: 14
+                        }
                     }
-                }],
-                yAxes: [{
-                    scaleLabel: {
+                },
+                y: {
+                    title: {
                         display: true,
-                        labelString: 'Porcentagem (%)'
+                        text: 'Porcentagem (%)'
                     },
                     ticks: {
                         min: 0,
-                        max: 100
+                        max: 100,
+                        stepSize: 10,
+                        font: {
+                            size: 14
+                        }
                     }
-                }]
+                }
             }
         }
     });
