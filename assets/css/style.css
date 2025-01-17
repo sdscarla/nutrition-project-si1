@@ -4,10 +4,10 @@
     font-family: 'Times New Roman', Times, serif;
     box-sizing: border-box;
 }
-
+/*
 #adicionar-refeicoes, #tabela-refeicoes {
-    display: ; /*none*/
-}
+    /*display: ; /*none*/
+
 
 .header {
     display: flex;
@@ -134,6 +134,28 @@ button:hover {
     border-collapse: collapse;
     background-color: #f3f3f3;
     border-radius: 10px;
+}
+
+#graficos-pizza canvas {
+    justify-content: space-between;
+    max-width: 100%;
+    height: auto;
+}
+
+#graficos-pizza {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 500px; /* Limita a largura do gráfico */
+    margin: 0 auto; 
 }
 
 th, td {

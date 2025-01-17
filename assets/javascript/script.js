@@ -206,6 +206,8 @@ function somar_calorias() {
         },
     });
 
+    gerar_graficospizza_individuais();
+
     /*var graficosPizza = $('#graficos-pizza');
     graficosPizza.empty();
 
@@ -272,6 +274,8 @@ function somar_calorias() {
         }
     }
 }*/
+
+/* aqui gera um grafico só com todos os alimento inclusos
 new Chart(document.getElementById('graficos-pizza').getContext('2d'), {
     type: 'pie',
     data: {
@@ -306,4 +310,48 @@ new Chart(document.getElementById('graficos-pizza').getContext('2d'), {
         }
     }
 });
+*/
+
+//gerar gráficos de pizza individuais
+function gerar_graficospizza_individuais() {
+    $('#graficos-pizza').empty(); //limpa os gráficos existentespara evitar duplicações
+
+    for (var alimento in gramas) {
+        var carboidratos = carboidratosPorGrama[alimento] * gramas[alimento];
+        var proteinas = proteinasPorGrama[alimento] * gramas[alimento];
+        var gorduras = gordurasPorGrama[alimento] * gramas[alimento];
+
+        var calorias = (carboidratos * 4) + (proteinas * 4) + (gorduras * 9);
+        calorias_por_alimento[alimento] = calorias;
+
+        //cria um canvas para cada gráfico de pizza
+        var canvasId = 'pizza-' + alimento;
+        $('#graficos-pizza').append('<canvas id="' + canvasId + '" width="200px" height="200px"></canvas>');
+
+        //dados para o gráfico de pizza
+        var data = {
+            labels: ['Carboidratos', 'Proteínas', 'Gorduras'],
+            datasets: [{
+                data: [carboidratos, proteinas, gorduras],
+                backgroundColor: ['#ff6384', '#36a2eb', '#ffce56'],
+            }]
+        };
+
+        //obter contexto do canvas corretamente
+        var ctx = document.getElementById(canvasId).getContext('2d');
+
+        //criar o gráfico de pizza
+        new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Distribuição de Calorias - ' + alimento
+                }
+            }
+        });
+    }
+}
 }
