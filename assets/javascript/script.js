@@ -1,6 +1,25 @@
 $(document).ready(function() {
     var grafico_criado = false; //verifica se já existe um gráfico evitando criação desnecessária
 
+    function carregarDados() {
+        const dadosGramas = localStorage.getItem('gramas');
+        const dadosMetaDiaria = localStorage.getItem('meta_diaria')
+
+        if (dadosGramas) {
+            gramas = JSON.parse(dadosGramas);
+        }
+        if (dadosMetaDiaria) {
+            meta_diaria - JSON.parse(dadosMetaDiaria);
+        }
+    }
+
+    function salvarDados() {
+        localStorage.setItem('gramas'.JSON.stringify(gramas));
+        localStorage.setItem('meta_diaria', JSON.stringify(meta_diaria));
+    }
+
+    carregarDados();
+
     $('#visualizacao').click(function() {
         somar_calorias(); // calcula calorias a partir dos macronutrientes
 
@@ -227,110 +246,6 @@ function somar_calorias() {
 
     gerar_graficospizza_individuais();
 
-    /*var graficosPizza = $('#graficos-pizza');
-    graficosPizza.empty();
-
-    for (var alimento in gramas) {
-        if(gramas[alimento] > 0) {
-            var div = $('<div></div>').css({
-                width: '23%',
-                height: '300px',
-                margin: '10px'
-              }).append('<canvas></canvas>');
-
-              graficosPizza.append(div);
-
-              var ctx = div.find('canvas')[0].getContext('2d');
-
-              new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Carboidratos', 'Proteinas', 'Gorduras'],
-                    datasets: [{
-                        data: [
-                            carboidratosPorGrama[alimento] * gramas[alimento],
-                            proteinasPorGrama[alimento] * gramas[alimento],
-                            gordurasPorGrama[alimento] * gramas[alimento]
-                        ],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(199, 199, 199, 0.2)',
-                            'rgba(83, 102, 255, 0.2)',
-                            'rgba(50, 205, 50, 0.2)',
-                            'rgba(205, 92, 92, 0.2)',
-                          ],
-                          borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(199, 199, 199, 1)',
-                            'rgba(83, 102, 255, 1)',
-                            'rgba(50, 205, 50, 1)',
-                            'rgba(205, 92, 92, 1)',
-                            ],
-                            borderWidth: 1,
-                    }],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: alimento
-                        }
-                    }
-                }
-              });
-        }
-    }
-}*/
-
-/* aqui gera um grafico só com todos os alimento inclusos
-new Chart(document.getElementById('graficos-pizza').getContext('2d'), {
-    type: 'pie',
-    data: {
-        labels: labels,
-        datasets: [{
-            data: data,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        title: {
-            display: true,
-            text: 'Distribuição de Calorias por Alimento'
-        }
-    }
-});
-*/
-
 //gerar gráficos de pizza individuais
 function gerar_graficospizza_individuais() {
     $('#graficos-pizza').empty(); //limpa os gráficos existentespara evitar duplicações
@@ -373,4 +288,55 @@ function gerar_graficospizza_individuais() {
         });
     }
 }
+}
+
+function adicionar_refeicao() {
+    var total_carbo = 0, total_prot = 0, total_gord = 0;
+
+    for (var alimento in gramas) {
+        if (gramas[alimento] > 0) {
+            total_carbo += carboidratosPorGrama[alimento] * gramas[alimento];
+            total_prot += proteinasPorGrama[alimento] * gramas[alimento];
+            total_gord += gordurasPorGrama[alimento] * gramas[alimento];
+        }
+    }
+
+    var linhaVazia = $('#tabela-refeicoes tbody tr:has(td:empty)').first();
+    if (linhaVazia.length > 0) {
+        linhaVazia.find('td:eq(1)').text(total_carbo.toFixed(2));
+        linhaVazia.find('td:eq(2)').text(total_prot.toFixed(2));
+        linhaVazia.find('td:eq(3)').text(total_gord.toFixed(2));
+
+        atualizar_grafico_metas_diarias();
+    } else {
+        alert('Todas as refeições para a semana já foram adicionadas com sucesso')
+    }
+}
+
+function atualizar_grafico_metas_diarias() {
+    var total_carbo = 0, total_prot = 0, total_gord = 0;
+
+    for (var alimento in gramas) {
+        total_carbo += carboidratosPorGrama[alimento] * grmas[alimento];
+        total_prot += proteinasPorGrama[alimento] * gramas[alimento];
+        total_gord += gordurasPorGrama[alimento] * gramas[alimento];
+    }
+
+    var porcentagemCarbo = Math.min((total_carbo / meta_diaria.carboidratos) * 100, 100);
+    var porcentagemProt = Math.min((total_prot / meta_diaria.proteinas) * 100, 100);
+    var porcentagemGord = Math.min((total_gord / meta_diaria.gorduras) * 100, 100);
+
+    consumo_diario.push({
+        carboidratos: porcentagemCarbo,
+        proteinas: porcentagemProt,
+        gorduras: porcentagemGord
+    });
+
+    var contDias = consumo_diario - 1;
+    if (contDias < 5) {
+        grafico_linhas.data.datasets[0].data.push(porcentagemCarbo);
+        grafico_linhas.data.datasets[1].data.push(porcentagemProt);
+        grafico_linhas.data.datasets[2].data.push(porcentagemGord);
+        grafico_linhas.update();
+    }
 }
