@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="assets/img/plano-de-nutricao.png">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
     <link rel="stylesheet" href="assets/css/style.css">
     <title>eating for life(modelo)</title>
 </head>
@@ -157,20 +157,16 @@
         <button id="visualizacao">Visualização</button>
     </div>
 
-    <div id="chart-container">
-        <canvas class="column-chart"></canvas>
-    </div>
+    <div id="container-column" style="width:100%; display:flex;"></div>
     <br><br>
-    <div id="graficos-pizza">
-        <canvas id="pizza-chart"></canvas>
-    </div>
+    <div id="container-pies" style="display:flex; flex-wrap:wrap; width:100%;"></div>
 
     <div class="botoes">
         <button id="adicionar-refeicao">Adicionar refeição ao dia</button>
     </div>
 
     <div class="container-tabela">
-        <canvas id="chart-container" width="400" height="200"></canvas>
+        <div id="chart-container-tabela" width="50%" display:flex; height="10%"></div>
         <table id="tabela-refeicoes" border="1">
             <thead>
                 <tr>
@@ -181,7 +177,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr><td>Segunda</td></td><td></td><td></td><td></td></tr>
+                <tr><td>Segunda</td><td></td><td></td><td></td></tr>
                 <tr><td>Terça</td><td></td><td></td><td></td></tr>
                 <tr><td>Quarta</td><td></td><td></td><td></td></tr>
                 <tr><td>Quinta</td><td></td><td></td><td></td></tr>

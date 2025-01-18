@@ -1,25 +1,6 @@
 $(document).ready(function() {
     var grafico_criado = false; //verifica se já existe um gráfico evitando criação desnecessária
 
-    function carregarDados() {
-        const dadosGramas = localStorage.getItem('gramas');
-        const dadosMetaDiaria = localStorage.getItem('meta_diaria')
-
-        if (dadosGramas) {
-            gramas = JSON.parse(dadosGramas);
-        }
-        if (dadosMetaDiaria) {
-            meta_diaria - JSON.parse(dadosMetaDiaria);
-        }
-    }
-
-    function salvarDados() {
-        localStorage.setItem('gramas'.JSON.stringify(gramas));
-        localStorage.setItem('meta_diaria', JSON.stringify(meta_diaria));
-    }
-
-    carregarDados();
-
     $('#visualizacao').click(function() {
         somar_calorias(); // calcula calorias a partir dos macronutrientes
 
@@ -97,84 +78,25 @@ var meta_diaria = { //objeto que armazena a meta diária dos macronutrientes com
 var consumo_diario = []; //array para aramazenar o percentual de cumprimento de meta diária de cada macronutriente, vai ser preenchido a medida que o alimento é consumido
 var grafico_linhas; //armazena o grafico para exibir o progresso do consumo diário em relação às metas
 
-//grafico de metas diárias
+
 function grafico_metas_diarias() {
-    var ctx = document.getElementById('chart-container').getContext('2d');
-    grafico_linhas = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'],
-            datasets: [
-                {
-                    label: 'Carboidratos',
-                    data: [],
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    fill: false,
-                    borderWidth: 2
-                },
-
-                {
-                    label: 'Proteínas',
-                    data: [],
-                    borderColor: 'rgba(153, 102, 255, 1)',
-                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                    fill: false,
-                    borderWidth: 2
-                },
-
-                {
-                    label: 'Gorduras',
-                    data: [],
-                    borderColor: 'rgba(255, 159, 64, 0.2)',
-                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                    fill: false,
-                    borderWidth: 2
-                }
-            ]
+    grafico_linhas = Highcharts.chart('chart-container-tabela', {
+        chart: { type: 'line' },
+        title: { text: 'Meta Diária em %' },
+        xAxis: {
+            categories: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'],
+            title: { text: 'Dias da semana'}
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            title: {
-                display: true,
-                text: 'Meta Diária em %',
-                font: {
-                    size: 16,
-                    weight: 'bold'
-                },
-                padding: {
-                    bottom: 20
-                }
-            },
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Dia da Semana'
-                    },
-                    ticks: {
-                        font: {
-                            size: 14
-                        }
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Porcentagem (%)'
-                    },
-                    ticks: {
-                        min: 0,
-                        max: 100,
-                        stepSize: 10,
-                        font: {
-                            size: 14
-                        }
-                    }
-                }
-            }
-        }
+        yAxis: {
+            title: { text: 'Porcentagem (%)'},
+            max: 100,
+            min: 0
+        },
+        series: [
+            { name: 'Carboidratos', data: []},
+            { name: 'Proteínas', data: []},
+            { name: 'Gorduras', data: []}
+        ]
     });
 }
 
@@ -218,125 +140,93 @@ function somar_calorias() {
         calorias_por_alimento[alimento] = calorias;
     }
 
-    var labels = Object.keys(calorias_por_alimento);
-    var data = Object.values(calorias_por_alimento);
-
-    new Chart($('.column-chart')[0].getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: labels,
-        datasets: [{
-            label: 'Calorias por Alimento',
-            data: data,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1,
-        }],
+    Highcharts.chart('container-column', {
+        chart: { type: 'column' },
+        title: { text: 'Calorias Ingeeridas por Alimento'},
+        xAxis: { categories: Object.keys(calorias_por_alimento) },
+        yAxis: {
+            min: 0,
+            tiitle: { text: 'Calorias (kcal)' }
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                },
-            },
-        },
+        series: [{
+            name: 'Calorias (kcal)',
+            data: Object.values(calorias_por_alimento)
+        }]
     });
 
-    gerar_graficospizza_individuais();
+    var container_pies = $('#container-pies');
+    container_pies.empty();
 
-//gerar gráficos de pizza individuais
-function gerar_graficospizza_individuais() {
-    $('#graficos-pizza').empty(); //limpa os gráficos existentespara evitar duplicações
+    for(var alimento in gramas) {
+        if (gramas[alimento] > 0) {
+            var div = $('<div></div>').css({
+                width: '23%', height: '300px', margin: '10px'
+            });
+            container_pies.append(div);
 
-    for (var alimento in gramas) {
-        var carboidratos = carboidratosPorGrama[alimento] * gramas[alimento];
-        var proteinas = proteinasPorGrama[alimento] * gramas[alimento];
-        var gorduras = gordurasPorGrama[alimento] * gramas[alimento];
-
-        var calorias = (carboidratos * 4) + (proteinas * 4) + (gorduras * 9);
-        calorias_por_alimento[alimento] = calorias;
-
-        //cria um canvas para cada gráfico de pizza
-        var canvasId = 'pizza-' + alimento;
-        $('#graficos-pizza').append('<canvas id="' + canvasId + '" width="200px" height="200px"></canvas>');
-
-        //dados para o gráfico de pizza
-        var data = {
-            labels: ['Carboidratos', 'Proteínas', 'Gorduras'],
-            datasets: [{
-                data: [carboidratos, proteinas, gorduras],
-                backgroundColor: ['#ff6384', '#36a2eb', '#ffce56'],
-            }]
-        };
-
-        //obter contexto do canvas corretamente
-        var ctx = document.getElementById(canvasId).getContext('2d');
-
-        //criar o gráfico de pizza
-        new Chart(ctx, {
-            type: 'pie',
-            data: data,
-            options: {
-                responsive: true,
-                title: {
-                    display: true,
-                    text: 'Distribuição de Calorias - ' + alimento
-                }
-            }
-        });
+            Highcharts.chart(div[0], {
+                chart: { type: 'pie' },
+                title: { text: alimento },
+                series: [{
+                    name: 'Macronutrientes',
+                    data: [
+                        { name: 'Carboidratos', y: carboidratosPorGrama[alimento] * gramas[alimento] },
+                        { name: 'Proteínas', y: proteinasPorGrama[alimento] * gramas[alimento] },
+                        { name: 'Gorduras', y: gordurasPorGrama[alimento] * gramas[alimento] },
+                    ]
+                }]
+            });
+        }
     }
 }
-}
 
-function adicionar_refeicao() {
-    var total_carbo = 0, total_prot = 0, total_gord = 0;
+    function atualizar_grafico_metas_diarias() {
+        var total_carbo = 0, total_prot = 0, total_gord = 0;
 
-    for (var alimento in gramas) {
-        if (gramas[alimento] > 0) {
+        for (var alimento in gramas) {
             total_carbo += carboidratosPorGrama[alimento] * gramas[alimento];
             total_prot += proteinasPorGrama[alimento] * gramas[alimento];
             total_gord += gordurasPorGrama[alimento] * gramas[alimento];
         }
+
+        var porcentagemCarbo = Math.min((total_carbo / meta_diaria.carboidratos) * 100, 100);
+        var porcentagemProt = Math.min((total_prot / meta_diaria.proteinas) * 100, 100);
+        var porcentagemGord = Math.min((total_gord / meta_diaria.gorduras) * 100, 100);
+
+        consumo_diario.push({
+            carboidratos: porcentagemCarbo,
+            proteinas: porcentagemProt,
+            gorduras: porcentagemGord
+        });
+
+        var contDias = consumo_diario.length - 1;
+        if (contDias < 5) {
+            grafico_linhas.series[0].addPoint(porcentagemCarbo);
+            grafico_linhas.series[1].addPoint(porcentagemProt);
+            grafico_linhas.series[2].addPoint(porcentagemGord);
+        }
     }
 
-    var linhaVazia = $('#tabela-refeicoes tbody tr:has(td:empty)').first();
-    if (linhaVazia.length > 0) {
-        linhaVazia.find('td:eq(1)').text(total_carbo.toFixed(2));
-        linhaVazia.find('td:eq(2)').text(total_prot.toFixed(2));
-        linhaVazia.find('td:eq(3)').text(total_gord.toFixed(2));
+    function adicionar_refeicao() {
+        var total_carbo = 0, total_prot = 0, total_gord = 0;
 
-        atualizar_grafico_metas_diarias();
-    } else {
-        alert('Todas as refeições para a semana já foram adicionadas com sucesso')
+        for (var alimento in gramas) {
+            if (gramas[alimento] > 0) {
+                total_carbo += carboidratosPorGrama[alimento] * gramas[alimento];
+                total_prot += proteinasPorGrama[alimento] * gramas[alimento];
+                total_gord += gordurasPorGrama[alimento] * gramas[alimento];
+            }
+        }
+
+        var linhaVazia = $('#tabela-refeicoes tbody tr:has(td:empty)').first();
+        if (linhaVazia.length > 0) {
+            linhaVazia.find('td:eq(1)').text(total_carbo.toFixed(2));
+            linhaVazia.find('td:eq(2)').text(total_prot.toFixed(2));
+            linhaVazia.find('td:eq(3)').text(total_gord.toFixed(2));
+
+                atualizar_grafico_metas_diarias();
+        } else {
+            alert('Todas as refeições para a semana já foram adicionadas com sucesso')
+        }
     }
-}
 
-function atualizar_grafico_metas_diarias() {
-    var total_carbo = 0, total_prot = 0, total_gord = 0;
-
-    for (var alimento in gramas) {
-        total_carbo += carboidratosPorGrama[alimento] * grmas[alimento];
-        total_prot += proteinasPorGrama[alimento] * gramas[alimento];
-        total_gord += gordurasPorGrama[alimento] * gramas[alimento];
-    }
-
-    var porcentagemCarbo = Math.min((total_carbo / meta_diaria.carboidratos) * 100, 100);
-    var porcentagemProt = Math.min((total_prot / meta_diaria.proteinas) * 100, 100);
-    var porcentagemGord = Math.min((total_gord / meta_diaria.gorduras) * 100, 100);
-
-    consumo_diario.push({
-        carboidratos: porcentagemCarbo,
-        proteinas: porcentagemProt,
-        gorduras: porcentagemGord
-    });
-
-    var contDias = consumo_diario - 1;
-    if (contDias < 5) {
-        grafico_linhas.data.datasets[0].data.push(porcentagemCarbo);
-        grafico_linhas.data.datasets[1].data.push(porcentagemProt);
-        grafico_linhas.data.datasets[2].data.push(porcentagemGord);
-        grafico_linhas.update();
-    }
-}
