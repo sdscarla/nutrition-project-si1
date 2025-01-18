@@ -136,34 +136,6 @@ button:hover {
     border-radius: 10px;
 }
 
-#graficos-pizza canvas {
-    width: 200px !important;
-    height: 200px !important;
-    margin: 10px;  
-}
-
-#graficos-pizza {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.chart-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 ;
-}
-
-#graficos-pizza > div {
-    width: 20%;
-    text-align: center;
-}
-
 th, td {
     padding: 12px;
     text-align: center;
