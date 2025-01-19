@@ -24,6 +24,8 @@ $(document).ready(function() {
     //executado quando o ID confirmar meta é clicado
     $('#confirmar_meta').click(function() {
         confirmarMeta_diaria(); //define a meta diária
+        salvarMetaDiaria();
+        exibirHistorico();
     });
 });
 
@@ -229,4 +231,50 @@ function somar_calorias() {
             alert('Todas as refeições para a semana já foram adicionadas com sucesso')
         }
     }
+
+    function salvarMetaDiaria() {
+        var dataAtual = new Date().toLocaleDateString();
+        var meta_diaria = {
+            data: dataAtual,
+            carboidratos: $('#meta_carboidratos').val(),
+            proteinas: $('#meta_proteinas').val(),
+            gorduras: $('#meta_gorduras').val(),
+        };
+        
+        if (meta_diaria.carboidratos && meta_diaria.proteinas && meta_diaria.gorduras) {
+            var historico = JSON.parse(localStorage.getItem('historicoMetas')) || [];
+            historico.push(meta_diaria);  // Adiciona as metas no histórico
+            localStorage.setItem('historicoMetas', JSON.stringify(historico));
+
+            alert('Meta diária salva com sucesso!');
+        } else {
+            alert('Por favor, insira valores válidos para a meta diária!')
+        }
+
+        $('#meta_carboidratos').val('');
+        $('#meta_proteinas').val('');
+        $('#meta_gorduras').val('');
+    }
+
+    function exibirHistorico() {
+        var historico = JSON.parse(localStorage.getItem('historicoMetas')) || [];
+        var tabelaHistorico = $('#tabela-historico');
+
+        tabelaHistorico.empty();
+
+        historico.forEach(function(meta) {
+            tabelaHistorico.append(
+                '<tr>' +
+                    '<td>' + meta.data + '</td>' +
+                    '<td>' + meta.carboidratos + '</td>' +
+                    '<td>' + meta.proteinas + '</td>' +
+                    '<td>' + meta.gorduras + '</td>' +
+                '</tr>'
+            );
+        });
+    }
+
+    $(document).ready(function() {
+        exibirHistorico();
+    });
 
