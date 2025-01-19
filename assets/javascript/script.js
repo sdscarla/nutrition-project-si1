@@ -144,7 +144,7 @@ function somar_calorias() {
 
     Highcharts.chart('container-column', {
         chart: { type: 'column' },
-        title: { text: 'Calorias Ingeeridas por Alimento'},
+        title: { text: 'Calorias Ingeridas por Alimento'},
         xAxis: { categories: Object.keys(calorias_por_alimento) },
         yAxis: {
             min: 0,
@@ -152,7 +152,8 @@ function somar_calorias() {
         },
         series: [{
             name: 'Calorias (kcal)',
-            data: Object.values(calorias_por_alimento)
+            data: Object.values(calorias_por_alimento),
+            color:  '#b053d1'
         }]
     });
 
@@ -172,9 +173,9 @@ function somar_calorias() {
                 series: [{
                     name: 'Macronutrientes',
                     data: [
-                        { name: 'Carboidratos', y: carboidratosPorGrama[alimento] * gramas[alimento] },
-                        { name: 'Proteínas', y: proteinasPorGrama[alimento] * gramas[alimento] },
-                        { name: 'Gorduras', y: gordurasPorGrama[alimento] * gramas[alimento] },
+                        { name: 'Carboidratos', y: carboidratosPorGrama[alimento] * gramas[alimento], color: '#ab003e' },
+                        { name: 'Proteínas', y: proteinasPorGrama[alimento] * gramas[alimento], color: '#ff874d' },
+                        { name: 'Gorduras', y: gordurasPorGrama[alimento] * gramas[alimento], color: '#fffb67' },
                     ]
                 }]
             });
@@ -242,9 +243,9 @@ function somar_calorias() {
         };
         
         if (meta_diaria.carboidratos && meta_diaria.proteinas && meta_diaria.gorduras) {
-            var historico = JSON.parse(localStorage.getItem('historicoMetas')) || [];
+            var historico = JSON.parse(sessionStorage.getItem('historicoMetas')) || [];
             historico.push(meta_diaria);  // Adiciona as metas no histórico
-            localStorage.setItem('historicoMetas', JSON.stringify(historico));
+            sessionStorage.setItem('historicoMetas', JSON.stringify(historico));
 
             alert('Meta diária salva com sucesso!');
         } else {
@@ -257,7 +258,7 @@ function somar_calorias() {
     }
 
     function exibirHistorico() {
-        var historico = JSON.parse(localStorage.getItem('historicoMetas')) || [];
+        var historico = JSON.parse(sessionStorage.getItem('historicoMetas')) || [];
         var tabelaHistorico = $('#tabela-historico');
 
         tabelaHistorico.empty();
