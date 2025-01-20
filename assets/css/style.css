@@ -4,10 +4,11 @@
     font-family: 'Times New Roman', Times, serif;
     box-sizing: border-box;
 }
-/*
-#adicionar-refeicoes, #tabela-refeicoes {
-    /*display: ; /*none*/
 
+
+#adicionar-refeicao, #tabela-refeicoes {
+    display: none;
+}
 
 .header {
     display: flex;
@@ -110,7 +111,27 @@ body {
     width: 80%;
 }
 
+.botoes {
+    display: flex;
+    justify-content: center;
+}
+
 .botoes button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 5px;
+    color: #55a49e;
+    cursor: pointer;
+}
+
+
+#mostrar-historico {
+    display: none;
+}
+
+#mostrar-historico {
     display: block;
     margin: 20px auto;
     padding: 10px 20px;
@@ -120,20 +141,39 @@ body {
     cursor: pointer;
 }
 
+#tabela-historico-container {
+    display: none;
+    margin: 0 auto;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+#tabela-historico-container th, #tabela-historico-conatiner td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
 button:hover {
     background-color: #b4d5d1;
 }
 
 .container-tabela {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 #tabela-refeicoes {
     width: 50%;
     border-collapse: collapse;
     background-color: #f3f3f3;
+    background-color: #fff;
     border-radius: 10px;
+}
+
+#chart-container-tabela {
+    width: 50%;
+    height: 300px;
 }
 
 th, td {
@@ -161,5 +201,5 @@ footer {
     font-size: 16px;
     display: flex;
     justify-content: center;
-    height: 6vh;
+    height: 5vh;
 }

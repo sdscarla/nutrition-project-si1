@@ -1,12 +1,48 @@
 $(document).ready(function() {
+    $('#mostrar-historico').hide();
+    $('#mostrar-historico').click(function() {
+        var tabela = $('#tabela-historico-container');
+
+        tabela.toggle();
+
+        if (tabela.is(':visible')) {
+            $(this).text('Ocultar histórico de metas');
+        } else {
+            $(this).text('Mostrar histórico de metas');
+        }
+    });
+
+    function exibirHistorico() {
+        var historico = JSON.parse(sessionStorage.getItem('historicoMetas')) || [];
+        var tabelaHistorico = $('#tabela-historico');
+
+        tabelaHistorico.empty();
+
+        historico.forEach(function(meta) {
+            tabelaHistorico.append(
+                '<tr>' +
+                    '<td>' + meta.data + '</td>' +
+                    '<td>' + meta.carboidratos + '</td>' +
+                    '<td>' + meta.proteinas + '</td>' +
+                    '<td>' + meta.gorduras + '</td>' +
+                '</tr>'
+            );
+        });
+    }
+
+    exibirHistorico();
+
     var grafico_criado = false; //verifica se já existe um gráfico evitando criação desnecessária
 
     $('#visualizacao').click(function() {
         somar_calorias(); // calcula calorias a partir dos macronutrientes
+        $('.container-tabela').removeClass('hidden');
+        $('#tabela-historico-conatiner').removeClass('hidden');
 
         //executado quando o ID visualização é clicado
         $('#adicionar-refeicao').show();
         $('#tabela-refeicoes').show();
+        $('#mostrar-historico').show();
 
         //verifica se o gráfico já foi criado, se não,
         if(!grafico_criado) {
@@ -173,9 +209,9 @@ function somar_calorias() {
                 series: [{
                     name: 'Macronutrientes',
                     data: [
-                        { name: 'Carboidratos', y: carboidratosPorGrama[alimento] * gramas[alimento], color: '#ab003e' },
+                        { name: 'Carboidratos', y: carboidratosPorGrama[alimento] * gramas[alimento], color: '#20a27e' },
                         { name: 'Proteínas', y: proteinasPorGrama[alimento] * gramas[alimento], color: '#ff874d' },
-                        { name: 'Gorduras', y: gordurasPorGrama[alimento] * gramas[alimento], color: '#fffb67' },
+                        { name: 'Gorduras', y: gordurasPorGrama[alimento] * gramas[alimento], color: '#ffd149' },
                     ]
                 }]
             });
@@ -256,26 +292,4 @@ function somar_calorias() {
         $('#meta_proteinas').val('');
         $('#meta_gorduras').val('');
     }
-
-    function exibirHistorico() {
-        var historico = JSON.parse(sessionStorage.getItem('historicoMetas')) || [];
-        var tabelaHistorico = $('#tabela-historico');
-
-        tabelaHistorico.empty();
-
-        historico.forEach(function(meta) {
-            tabelaHistorico.append(
-                '<tr>' +
-                    '<td>' + meta.data + '</td>' +
-                    '<td>' + meta.carboidratos + '</td>' +
-                    '<td>' + meta.proteinas + '</td>' +
-                    '<td>' + meta.gorduras + '</td>' +
-                '</tr>'
-            );
-        });
-    }
-
-    $(document).ready(function() {
-        exibirHistorico();
-    });
 
