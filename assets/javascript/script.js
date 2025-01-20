@@ -1,25 +1,25 @@
-$(document).ready(function() {
-    $('#mostrar-historico').hide();
-    $('#mostrar-historico').click(function() {
+$(document).ready(function() { //executa o código quando o DOM estiver carregado
+    $('#mostrar-historico').hide(); //esconde o elemento
+    $('#mostrar-historico').click(function() { //define evento de clique
         var tabela = $('#tabela-historico-container');
 
-        tabela.toggle();
+        tabela.toggle(); //alterna a visibilidade da tabela (mostra/oculta)
 
-        if (tabela.is(':visible')) {
-            $(this).text('Ocultar histórico de metas');
+        if (tabela.is(':visible')) { //verifica se a tabela está visível
+            $(this).text('Ocultar histórico de metas'); //altera o texto quando clicado
         } else {
             $(this).text('Mostrar histórico de metas');
         }
     });
 
     function exibirHistorico() {
-        var historico = JSON.parse(sessionStorage.getItem('historicoMetas')) || [];
+        var historico = JSON.parse(sessionStorage.getItem('historicoMetas')) || []; //recupea e converte os dados aramazenados em um array, se não tiver dados inicializa um array vazio
         var tabelaHistorico = $('#tabela-historico');
 
-        tabelaHistorico.empty();
+        tabelaHistorico.empty(); //limpa o campo
 
-        historico.forEach(function(meta) {
-            tabelaHistorico.append(
+        historico.forEach(function(meta) { //itera sobre o objeto no array
+            tabelaHistorico.append( //adiciona uma nova linha de tabela preenchendo com os dados
                 '<tr>' +
                     '<td>' + meta.data + '</td>' +
                     '<td>' + meta.carboidratos + '</td>' +
@@ -30,14 +30,14 @@ $(document).ready(function() {
         });
     }
 
-    exibirHistorico();
+    exibirHistorico(); //chama a função
 
     var grafico_criado = false; //verifica se já existe um gráfico evitando criação desnecessária
 
     $('#visualizacao').click(function() {
         somar_calorias(); // calcula calorias a partir dos macronutrientes
-        $('.container-tabela').removeClass('hidden');
-        $('#tabela-historico-conatiner').removeClass('hidden');
+        $('.container-tabela').removeClass('hidden'); //remove a classe tornando os elementos visíveis com essa classe
+        $('#tabela-historico-container').removeClass('hidden');
 
         //executado quando o ID visualização é clicado
         $('#adicionar-refeicao').show();
@@ -116,7 +116,7 @@ var meta_diaria = { //objeto que armazena a meta diária dos macronutrientes com
 var consumo_diario = []; //array para aramazenar o percentual de cumprimento de meta diária de cada macronutriente, vai ser preenchido a medida que o alimento é consumido
 var grafico_linhas; //armazena o grafico para exibir o progresso do consumo diário em relação às metas
 
-
+//grafico da meta diária
 function grafico_metas_diarias() {
     grafico_linhas = Highcharts.chart('chart-container-tabela', {
         chart: { type: 'line' },
@@ -169,13 +169,13 @@ function somar_calorias() {
     };
 
     var calorias_por_alimento = {}; //dicionario para armazenar as calorias totais de cada alimento
-    for (var alimento in gramas) {
+    for (var alimento in gramas) { //chama variável global e multiplica pelas gramas informadas
         var carboidratos = carboidratosPorGrama[alimento] * gramas[alimento];
         var proteinas = proteinasPorGrama[alimento] * gramas[alimento];
         var gorduras = gordurasPorGrama[alimento] * gramas[alimento];
 
         var calorias = (carboidratos * 4) + (proteinas * 4) + (gorduras * 9);
-        calorias_por_alimento[alimento] = calorias;
+        calorias_por_alimento[alimento] = calorias; //atribui a calorias ao seu respectivo alimento
     }
 
     Highcharts.chart('container-column', {
@@ -193,15 +193,15 @@ function somar_calorias() {
         }]
     });
 
-    var container_pies = $('#container-pies');
-    container_pies.empty();
+    var container_pies = $('#container-pies'); //cria um gráfico de pizza para cada alimento
+    container_pies.empty(); //atualiza os gráficos a cada refeição nova visualizada
 
     for(var alimento in gramas) {
         if (gramas[alimento] > 0) {
             var div = $('<div></div>').css({
                 width: '23%', height: '300px', margin: '10px'
             });
-            container_pies.append(div);
+            container_pies.append(div); //insere o grafico de pizza na div
 
             Highcharts.chart(div[0], {
                 chart: { type: 'pie' },
@@ -218,78 +218,77 @@ function somar_calorias() {
         }
     }
 }
-
+    //atualiza o grafico de metas à cada refeição adicionada
     function atualizar_grafico_metas_diarias() {
-        var total_carbo = 0, total_prot = 0, total_gord = 0;
+        var total_carbo = 0, total_prot = 0, total_gord = 0; //reseta para cada uso
 
         for (var alimento in gramas) {
             total_carbo += carboidratosPorGrama[alimento] * gramas[alimento];
             total_prot += proteinasPorGrama[alimento] * gramas[alimento];
             total_gord += gordurasPorGrama[alimento] * gramas[alimento];
         }
-
+        //para as %não passarem de 100% e "quebrar" o gráfico
         var porcentagemCarbo = Math.min((total_carbo / meta_diaria.carboidratos) * 100, 100);
         var porcentagemProt = Math.min((total_prot / meta_diaria.proteinas) * 100, 100);
         var porcentagemGord = Math.min((total_gord / meta_diaria.gorduras) * 100, 100);
 
-        consumo_diario.push({
+        consumo_diario.push({ //adiciona as % consumidas da meta ao consumo diario
             carboidratos: porcentagemCarbo,
             proteinas: porcentagemProt,
             gorduras: porcentagemGord
         });
 
-        var contDias = consumo_diario.length - 1;
-        if (contDias < 5) {
+        var contDias = consumo_diario.length - 1; //inicia como limitador para atualizar o gráfico de meta
+        if (contDias < 5) { //atualiza até o 5° dia
             grafico_linhas.series[0].addPoint(porcentagemCarbo);
             grafico_linhas.series[1].addPoint(porcentagemProt);
             grafico_linhas.series[2].addPoint(porcentagemGord);
         }
     }
 
+    //função para adicionar a refeição na tabela e atualizar o gráfico de meta
     function adicionar_refeicao() {
-        var total_carbo = 0, total_prot = 0, total_gord = 0;
+        var total_carbo = 0, total_prot = 0, total_gord = 0; //reseta para cada uso
 
         for (var alimento in gramas) {
-            if (gramas[alimento] > 0) {
+            if (gramas[alimento] > 0) { //verifica se o alimento foi inserido, se sim, soma nas variáveis de contagem para adicionar na tabela
                 total_carbo += carboidratosPorGrama[alimento] * gramas[alimento];
                 total_prot += proteinasPorGrama[alimento] * gramas[alimento];
                 total_gord += gordurasPorGrama[alimento] * gramas[alimento];
             }
         }
 
-        var linhaVazia = $('#tabela-refeicoes tbody tr:has(td:empty)').first();
-        if (linhaVazia.length > 0) {
-            linhaVazia.find('td:eq(1)').text(total_carbo.toFixed(2));
+        var linhaVazia = $('#tabela-refeicoes tbody tr:has(td:empty)').first(); //seleciona os tr da tabela, filtra linhas que tem ao menos um td vazio; first é para que apenas a 1° linha seja selecionada
+        if (linhaVazia.length > 0) { //se tiver linha vazia adiciona o valor, se não , já estão preenchidas
+            linhaVazia.find('td:eq(1)').text(total_carbo.toFixed(2));//findo encontra as células td e o eq para localizar a celula dentro do td
             linhaVazia.find('td:eq(2)').text(total_prot.toFixed(2));
             linhaVazia.find('td:eq(3)').text(total_gord.toFixed(2));
 
-                atualizar_grafico_metas_diarias();
+                atualizar_grafico_metas_diarias(); //atualiza o gráfico de linhas
         } else {
             alert('Todas as refeições para a semana já foram adicionadas com sucesso')
         }
     }
 
     function salvarMetaDiaria() {
-        var dataAtual = new Date().toLocaleDateString();
-        var meta_diaria = {
+        var dataAtual = new Date().toLocaleDateString(); //pega a data atual e armazena
+        var meta_diaria = { 
             data: dataAtual,
             carboidratos: $('#meta_carboidratos').val(),
             proteinas: $('#meta_proteinas').val(),
             gorduras: $('#meta_gorduras').val(),
         };
         
-        if (meta_diaria.carboidratos && meta_diaria.proteinas && meta_diaria.gorduras) {
-            var historico = JSON.parse(sessionStorage.getItem('historicoMetas')) || [];
+        if (meta_diaria.carboidratos && meta_diaria.proteinas && meta_diaria.gorduras) { //verifica se os valores da meta diaria fora preenchidos
+            var historico = JSON.parse(sessionStorage.getItem('historicoMetas')) || []; //recupera o historico de metas e converte em array
             historico.push(meta_diaria);  // Adiciona as metas no histórico
-            sessionStorage.setItem('historicoMetas', JSON.stringify(historico));
-
+            sessionStorage.setItem('historicoMetas', JSON.stringify(historico)); //o converte o array para uma string JSON e armazena
             alert('Meta diária salva com sucesso!');
         } else {
             alert('Por favor, insira valores válidos para a meta diária!')
         }
 
-        $('#meta_carboidratos').val('');
+        $('#meta_carboidratos').val(''); //limpa os campos de entrada do formulário
         $('#meta_proteinas').val('');
         $('#meta_gorduras').val('');
     }
-
