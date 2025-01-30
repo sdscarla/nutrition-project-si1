@@ -31,7 +31,7 @@
      
       git clone https://github.com/sdscarla/nutrition-project-si1
       
-  2.Se deseja visualizar a interface clique no link na descrição do projeto
-  
+  2.Se deseja visualizar a interface clique no link abaixo <br>
+  https://sdscarla.github.io/nutrition-project-si1/
   </body>
 </html>
