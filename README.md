@@ -1,37 +1,37 @@
 <DOCTYPE html>
 <html>
   <body>
-    <h2>Site de Exibição Nutricionais dos alimentos</h2>
+    <h1>Eating for Life</h1>
     <p>
-      Utilizando HTML, CSS, JavaScript, JQuery e uma das seguintes bibliotecas charts.js
-ou highcharts.js, juntamente com um arquivo .csv disponibilizado no ava cada dupla de
-alunos deve construir uma página para exibir as informações dos alimentos presentes no
-arquivo csv de acordo com a vontade do usuários.
+      <b>Eating for Life</b> é uma interface web que exibe valores nutricionais de alguns alimentos pré-selecionados, assim como possibilita ao usuário adicionar sua meta diária; adicionar a quantidade de alimentos à sua refeição; além de adicionar a refeição à sua semana, tendo uma representação gráfica para auxiliar na visualização ao comparar os macronutrientes. <br><br>
+        O projeto foi desenvolvido em colaboração com outro colega para finalizar a disciplina de <b>Sistemas para Internet I</b>.
   </p>
 
-<h3>Parte 1 - Seleção e Refeição</h3>
+<h1>Métodos</h1>
     <p>
-    Para cada item(alimento) do arquivo CSV deve aparecer na tela um elemento que possua a
-imagem do alimento, informação sobre quanto ele possui dos principais
-nutrientes (gorduras, carboidratos e proteínas) e quais vitaminas estão presentes no
-alimento. Juntamente no elemento deve ter um input para o usuário digitar quantas
-gramas ele quer daquele alimento na refeição. <br> No final da tela de input deve existir um botão de visualização onde serão usadas
-as informações digitadas do usuário para a construção de pelo menos 2 tipos
-diferentes de gráficos. <br> Os gráficos tem função de comparar para o usuário a quantidade de cada
-nutriente em cada porção de alimento selecionado, leve isso em consideração na
-escolha dos gráficos.
+      <ul>
+        <li><b>Comparação de metas:</b> Compare seus consumos diários com as metas estabelecidas.</li>
+        <li><b>Cálculo de macronutrientes:</b> Calcule os macronutrientes consumidos em cada refeição.</li>
+        <li><b>Gráficos interativos:</b> Visualiza seus dados nos gráficos para uma melhor comparação.</li>
+        <li><b>Planejamento semanal:</b> Adicione e acompanhe os macronutrientes durante a semana.</li>
+      </ul>
   </p>
 
-  <h3>Parte 2 - Meta diária e Refeições na semana</h3>
-    <p>
-      Ao final da visualização dos gráficos o usuário deve ser capaz de adicionar a refeição
-em um conjunto de refeições feitas no dia que será exibida no formato de tabela. <br>
-      Ao finalizar um conjunto de refeições no dia, o usuário deve conseguir adicionar essas
-refeições em sua semana. A meta diária é uma meta em gramas que só leva em consideração gorduras,
-proteínas e carboidratos, e é definida pelo próprio usuário por um input padrão.<br> Uma funcionalidade da página deve ser adicionar as refeições do dia na semana, ao
-fazer isso, deve ser adicionado um novo dia em um gráfico de linhas onde mostra a
-porcentagem de cada um dos nutrientes em relação a meta definida anteriormente pelo
-usuário.
-    </p>
+  <h1>Tecnologias Utilizadas</h1>
+    <ul>
+      <li>HTML5</li>
+      <li>CSS3</li>
+      <li>JavaScript</li>
+      <li>JQuery</li>
+      <li>Highcharts.js</li>
+    </ul>
+
+  <h1>Colaboração</h1>
+  1.Se você quer colaborar com o projeto basta clonar o repositório:
+     
+      git clone https://github.com/sdscarla/nutrition-project-si1
+      
+  2.Se deseja visualizar a interface clique no link na descrição do projeto
+  
   </body>
 </html>
